@@ -6,6 +6,7 @@ import com.outdoor.orderservice.model.Order;
 import com.outdoor.orderservice.model.OrderItems;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -13,9 +14,10 @@ public class OrderService {
     public void placeOrder(OrderRequest orderRequest){
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
-        orderRequest.getOrderItemsDto().stream()
+       List<OrderItems> orderItems = orderRequest.getOrderItemsDto().stream()
                 .map(this::mapToDto)
                 .toList();
+        order.setOrderItems(orderItems);
     }
 
     private OrderItems mapToDto(OrderItemsDto orderItemsDto) {
